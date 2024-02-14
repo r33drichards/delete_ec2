@@ -21,12 +21,6 @@ async fn run() -> Result<(), Error> {
         .send()
         .await?;
 
-    for reservation in instances.reservations().unwrap_or_default() {
-        for instance in reservation.instances().unwrap_or_default() {
-            println!("Instance ID: {}", instance.instance_id().unwrap_or_default());
-        }
-    }
-
     let instance_ids = instances.reservations().unwrap_or_default()
         .iter()
         .flat_map(|reservation| reservation.instances().unwrap_or_default())
