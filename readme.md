@@ -9,7 +9,17 @@ ssh alice@prod 'sudo systemctl start deleteec2.timer'
 
 ssh alice@prod 'sudo journalctl -xeu deleteec2.service -f'
 ssh alice@prod 'nix run github:r33drichards/delete_ec2 --refresh'
-nix-copy-closure --to alice@bcache  /nix/store/y5lhkvma9vq7ixxjfal9cwv1pvk8hjry-app-0.0.1.drv
+
+nix build
 nix sign-paths --key-file key `readlink result` 
 nix copy --to ssh-ng://alice@bcache `readlink result`
 ```
+
+➜  delete_ec2 git:(master) ssh alice@prod 'nix run github:r33drichards/delete_ec2 --refresh'
+
+this derivation will be built:
+  /nix/store/ykawckxdpsmipch7ynn19vz5q5dnh0fx-app-0.0.1.drv
+
+
+➜  delete_ec2 git:(master) ✗ readlink result                                                  
+/nix/store/s387j4zc2l96py7mqy5c7w2bj0spxfjy-app-0.0.1
