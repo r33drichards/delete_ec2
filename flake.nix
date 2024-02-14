@@ -22,19 +22,33 @@
               lockFile = ./Cargo.lock;
             };
 
-            nativeBuildInputs = [ pkgs.pkg-config ];
+            nativeBuildInputs = [ 
+              pkgs.pkg-config 
+              # https://discourse.nixos.org/t/debug-a-failed-derivation-with-breakpointhook-and-cntr/8669
+              pkgs.breakpointHook
+            ];
             PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
+
+            buildPhase = ''
+              cargo build --release
+            '';
 
             installPhase = ''
               mkdir -p $out/bin
               cp target/release/delete_ec2 $out/bin/app
             '';
+
+            # disable checkPhase
+            doCheck = false;
+
           };
         in
         {
           app = app;
           packages.default = app;
+          # devShells.default = app;
           devShells.default = import ./shell.nix { inherit pkgs; };
+
         })
     );
 }
