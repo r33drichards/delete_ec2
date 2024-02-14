@@ -26,9 +26,22 @@ async fn run() -> Result<(), Error> {
     for reservation in instances.reservations().unwrap_or_default() {
         for instance in reservation.instances().unwrap_or_default() {
             println!("Instance ID: {}", instance.instance_id().unwrap_or_default());
-            // Add more details as needed
         }
     }
+
+    let instance_ids = instances.reservations().unwrap_or_default()
+        .iter()
+        .flat_map(|reservation| reservation.instances().unwrap_or_default())
+        .map(|instance| instance.instance_id().unwrap_or_default())
+        .map(|i| i.to_string())
+        .collect::<Vec<_>>();
+    
+    let deleted = client.terminate_instances()
+    .set_instance_ids(Some(instance_ids))
+    .send()
+    .await?;
+
+    println!("Deleted instances: {:?}", deleted.terminating_instances().unwrap_or_default());
 
     Ok(())
 }
