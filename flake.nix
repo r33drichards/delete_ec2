@@ -14,7 +14,7 @@
           };
 
           app = pkgs.rustPlatform.buildRustPackage {
-            pname = "app";
+          pname = "app";
             version = "0.0.1";
             src = ./.;
 
@@ -24,6 +24,11 @@
 
             nativeBuildInputs = [ pkgs.pkg-config ];
             PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
+
+            installPhase = ''
+              mkdir -p $out/bin
+              cp target/release/delete_ec2 $out/bin/app
+            '';
           };
         in
         {
