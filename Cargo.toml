@@ -1,0 +1,11 @@
+[package]
+name = "delete_ec2"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+aws-config = "0.15.0" # Check for the latest version
+aws-sdk-ec2 = "0.15.0" # Check for the latest version
+tokio = { version = "1", features = ["full"] }
