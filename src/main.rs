@@ -1,6 +1,5 @@
 use aws_config::meta::region::RegionProviderChain;
 use aws_sdk_ec2::{Client, Error, Region, model::Filter};
-use std::process;
 
 #[tokio::main]
 async fn main() {
