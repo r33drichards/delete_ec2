@@ -6,7 +6,6 @@ use std::process;
 async fn main() {
     if let Err(e) = run().await {
         eprintln!("Error: {}", e);
-        process::exit(1);
     }
 }
 
